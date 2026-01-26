@@ -12,6 +12,19 @@ spring:
       url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: ${sky.datasource.username}
       password: ${sky.datasource.password}
+  web:
+    resources:
+          # 支持本地图片上传之后的链接，其中 file:///d的用于win系统，后面的file: 适用于mac/linux系统
+          static-locations:       #告诉SpringBoot查找静态资源的位置（覆盖默认值）
+            - classpath:/static/
+            - file:///d:${image.abs-tmp-path}
+            - file:${image.abs-tmp-path}
+  redis:
+    host: ${sky.redis.host}
+    port: ${sky.redis.port}
+    password: ${sky.redis.password}
+    database: ${sky.redis.database}
+
 
 mybatis:
   #mapper配置文件
@@ -37,3 +50,33 @@ sky:
     admin-ttl: 7200000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+    user-secret-key: itheima
+    user-ttl: 7200000
+    user-token-name: authentication
+  wechat:
+    appid: ${sky.wechat.appid}
+    secret: ${sky.wechat.secret}
+    mchid: ${sky.wechat.mchid}
+    mchSerialNo: ${sky.wechat.mchSerialNo}
+    privateKeyFilePath: ${sky.wechat.privateKeyFilePath}
+    apiV3Key: ${sky.wechat.apiV3Key}
+    weChatPayCertFilePath: ${sky.wechat.weChatPayCertFilePath}
+    notifyUrl: ${sky.wechat.notifyUrl}
+    refundNotifyUrl: ${sky.wechat.refundNotifyUrl}
+
+
+
+image:
+  abs-tmp-path: D:\Documents\Project\Idea_Projects\Practice_Project\SkyOrdering\back-end-development\images\dish-images #存储的绝对路径
+  web-img-path: /forum/image/ #图片在Web应用中的相对路径
+  tmp-upload-path: /tmp/forum/ #上传文件的临时存储目录
+  cdn-host:                    #图片的CDN访问域名，本地不需要
+  oss:                         #图片上传到阿里云OSS时的配置
+    type: local
+    prefix:
+    endpoint:
+    ak:
+    sk:
+    bucket:
+    host:
+
